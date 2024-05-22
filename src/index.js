@@ -7,4 +7,33 @@ import Paragraph, { Paragraphs } from './components/Paragraph';
 import Section from './components/Section';
 import TextRun from './components/TextRun';
 
-export { parseBlockContent, parseStyledString, mergeListParagraphs, htmlToDocx, makeCurrency, makeParentheses, makeRange, join, H1, H2, H3, H4, Link, Links, Image, Images, List, Lists, Paragraph, Paragraphs, Section, TextRun };
+import { convertMillimetersToTwip } from 'docx';
+import { twJoin, twMerge } from 'tailwind-merge';
+
+export {
+    parseBlockContent,
+    parseStyledString,
+    mergeListParagraphs,
+    htmlToDocx,
+    makeCurrency,
+    makeParentheses,
+    makeRange,
+    join,
+    H1,
+    H2,
+    H3,
+    H4,
+    Link,
+    Links,
+    Image,
+    Images,
+    List,
+    Lists,
+    Paragraph,
+    Paragraphs,
+    Section,
+    TextRun,
+    twJoin,
+    twMerge,
+    convertMillimetersToTwip
+};

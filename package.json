@@ -1,6 +1,6 @@
 {
     "name": "@uniwebcms/report-sdk",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "description": "",
     "main": "dist/bundle.js",
     "files": [
@@ -43,7 +43,8 @@
         "webpack-cli": "^4.10.0"
     },
     "dependencies": {
-        "tailwind-merge": "^1.13.2"
+        "tailwind-merge": "^1.13.2",
+        "docx": "^8.5.0"
     },
     "peerDependencies": {
         "react": "^18.2.0",
