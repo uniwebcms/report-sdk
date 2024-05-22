@@ -1,0 +1,52 @@
+{
+    "name": "@uniwebcms/report-sdk",
+    "version": "1.0.0",
+    "description": "",
+    "main": "dist/bundle.js",
+    "files": [
+        "dist",
+        "src"
+    ],
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build:dev": "webpack --mode=development --watch",
+        "build": "webpack --mode=production",
+        "reinstall": "rm -rf ./node_modules && npm i",
+        "rebuild": "rm -rf ./dist && npm run build",
+        "docs": "jsdoc2md src/*.js > docs/api.md"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/uniwebcms/report-sdk.git"
+    },
+    "keywords": [
+        "uniweb"
+    ],
+    "author": "",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/uniwebcms/report-sdk/issues"
+    },
+    "homepage": "https://github.com/uniwebcms/report-sdk#readme",
+    "devDependencies": {
+        "@babel/core": "^7.13.14",
+        "@babel/preset-env": "^7.13.12",
+        "@babel/preset-react": "^7.13.13",
+        "@svgr/webpack": "^5.5.0",
+        "babel-loader": "^8.2.2",
+        "css-loader": "^5.2.0",
+        "sass": "^1.50.0",
+        "jsdoc-to-markdown": "^8.0.0",
+        "sass-loader": "^12.6.0",
+        "style-loader": "^2.0.0",
+        "webpack": "^5.74.0",
+        "webpack-cli": "^4.10.0"
+    },
+    "dependencies": {
+        "tailwind-merge": "^1.13.2"
+    },
+    "peerDependencies": {
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0"
+    }
+}
