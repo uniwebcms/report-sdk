@@ -82,7 +82,7 @@ export default function Paragraph({ as = 'p', data, children, format, ...props }
         const parsed = parseStyledString(data);
 
         if (format) {
-            const { mode, list } = format;
+            const { mode, list, numberingNumber } = format;
 
             if (mode === 'twoColumnLayoutWide' || mode === 'twoColumnLayout' || mode === 'twoColumnLayoutJustified' || mode === 'twoLevelIndentation') {
                 const target = findSecondLeadingText(list);
@@ -178,6 +178,34 @@ export default function Paragraph({ as = 'p', data, children, format, ...props }
                         </Tag>
                     );
                 }
+            } else if (mode === 'ordered-list-reversed' && numberingNumber) {
+                return (
+                    <Tag {...props} className='flex ml-3' data-type='paragraph' data-style={'reversedList'}>
+                        <span className='w-8 text-right' data-type='contentWrapper'>
+                            {createTextRun({
+                                content: `${numberingNumber}.`
+                            })}
+                        </span>
+                        <span className='flex-1 pl-8' data-type='contentWrapper'>
+                            {parsed.map((text, index) => {
+                                return (
+                                    <Fragment key={index}>
+                                        {createTextRun(
+                                            text,
+                                            index === 0
+                                                ? {
+                                                      'data-positionaltab-alignment': 'left',
+                                                      'data-positionaltab-relativeto': 'indent',
+                                                      'data-positionaltab-leader': 'none'
+                                                  }
+                                                : {}
+                                        )}
+                                    </Fragment>
+                                );
+                            })}
+                        </span>
+                    </Tag>
+                );
             }
         }
 
