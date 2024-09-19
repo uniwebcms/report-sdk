@@ -6,6 +6,7 @@ import List, { Lists } from './components/List';
 import Paragraph, { Paragraphs } from './components/Paragraph';
 import Section from './components/Section';
 import TextRun from './components/TextRun';
+import SourceTooltip from './components/SourceTooltip';
 
 import { convertMillimetersToTwip } from 'docx';
 import { twJoin, twMerge } from 'tailwind-merge';
@@ -33,6 +34,7 @@ export {
     Paragraphs,
     Section,
     TextRun,
+    SourceTooltip,
     twJoin,
     twMerge,
     convertMillimetersToTwip

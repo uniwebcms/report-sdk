@@ -9,10 +9,11 @@ import { twMerge } from 'tailwind-merge';
  * @param {string} [props.className] - Additional classes to apply to the section.
  * @returns {JSX.Element} - A section element containing the children.
  */
-export default function Section({ children, className = '', ...props }) {
+export default function Section({ children, className = '', tooltip, ...props }) {
     return (
-        <section className={twMerge('mx-auto w-full max-w-4xl text-[18px]', className)} {...props}>
-            {children}
+        <section className={twMerge('mx-auto w-full max-w-4xl text-[18px]', className, tooltip && 'flex items-start space-x-2')} {...props}>
+            <div className='flex-grow'>{children}</div>
+            {tooltip}
         </section>
     );
 }
