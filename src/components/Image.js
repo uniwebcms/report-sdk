@@ -2,17 +2,6 @@ import React from 'react';
 import Paragraph from './Paragraph';
 import TextRun from './TextRun';
 
-const website = uniweb.activeWebsite;
-
-/**
- * Retrieves the page profile of the active page from the website.
- *
- * @returns {Object|null} - The profile of the active page, or null if no active page is found.
- */
-const getPageProfile = () => {
-    return website?.activePage ? website.activePage.getPageProfile() : null;
-};
-
 /**
  * A component that renders an image inside a Paragraph component.
  *
@@ -23,28 +12,28 @@ const getPageProfile = () => {
  * @param {string} props.data.alt - The alternative text for the image.
  * @returns {JSX.Element} - A Paragraph component containing the image or a alt text.
  */
-export default function Image({ data, ...props }) {
+export default function Image({ data, website, ...props }) {
     const { value, url, alt } = data;
 
     let src = '',
         format = ''; // docx supports jpeg, jpg, bmp, gif and png
 
-    const profile = getPageProfile();
-
-    if (!profile) {
-        console.warn('No active page profile found.');
-
-        return (
-            <Paragraph>
-                <TextRun>{alt}</TextRun>
-            </Paragraph>
-        );
-    }
-
     if (url) {
         src = url;
     } else {
-        src = profile.getAssetInfo(value, true, alt).src;
+        const pageProfile = website?.activePage?.getPageProfile() || null;
+
+        if (!pageProfile) {
+            console.warn('No active page profile found.');
+
+            return (
+                <Paragraph>
+                    <TextRun>{alt}</TextRun>
+                </Paragraph>
+            );
+        } else {
+            src = pageProfile.getAssetInfo(value, true, alt).src;
+        }
     }
 
     format = ['jpeg', 'jpg', 'bmp', 'gif', 'png'].includes(src.split('.').pop().toLowerCase()) ? src.split('.').pop().toLowerCase() : null;
