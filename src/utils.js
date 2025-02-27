@@ -371,6 +371,16 @@ export function htmlToDocx(htmlString) {
                     case 'data-image-type':
                         properties.imageType = attr.value;
                         break;
+                    case 'data-floating-horizontalposition-relative':
+                        properties.floating = properties.floating || {};
+                        properties.floating.horizontalPosition = properties.floating.horizontalPosition || {};
+                        properties.floating.horizontalPosition.relative = attr.value;
+                        break;
+                    case 'data-floating-verticalposition-relative':
+                        properties.floating = properties.floating || {};
+                        properties.floating.verticalPosition = properties.floating.verticalPosition || {};
+                        properties.floating.verticalPosition.relative = attr.value;
+                        break;
                     case 'data-floating-horizontalposition-align':
                         properties.floating = properties.floating || {};
                         properties.floating.horizontalPosition = properties.floating.horizontalPosition || {};
@@ -381,12 +391,16 @@ export function htmlToDocx(htmlString) {
                         properties.floating.verticalPosition = properties.floating.verticalPosition || {};
                         properties.floating.verticalPosition.align = attr.value;
                         break;
-                    case 'data-floating-verticalposition-relative':
+                    case 'data-floating-horizontalposition-offset':
+                        properties.floating = properties.floating || {};
+                        properties.floating.horizontalPosition = properties.floating.horizontalPosition || {};
+                        properties.floating.horizontalPosition.offset = attr.value;
+                        break;
+                    case 'data-floating-verticalposition-offset':
                         properties.floating = properties.floating || {};
                         properties.floating.verticalPosition = properties.floating.verticalPosition || {};
-                        properties.floating.verticalPosition.relative = attr.value;
+                        properties.floating.verticalPosition.offset = attr.value;
                         break;
-
                     default:
                         properties[attr.name.replace('data-', '')] = attr.value;
                 }
