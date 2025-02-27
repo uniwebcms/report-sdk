@@ -1,3 +1,17 @@
+function splitByBrTag(arr, delimiter = '<br>') {
+    let result = [];
+
+    arr.forEach((item) => {
+        if (item.includes(delimiter)) {
+            result.push(...item.split(delimiter)); // Split and insert parts separately
+        } else {
+            result.push(item); // Keep unchanged items
+        }
+    });
+
+    return result;
+}
+
 /**
  * Parses a block's content and extracts the main and body content.
  *
@@ -42,32 +56,56 @@ export const parseBlockContent = (block) => {
 
     if (block.main?.banner) images.push(block.main.banner);
 
-    // remove continuously empty trailing paragraph in paragraphs and in list's paragraphs
-    while (paragraphs.length && !paragraphs[paragraphs.length - 1]) paragraphs.pop();
-
+    // remove empty entries in paragraphs
+    paragraphs = paragraphs.filter((p) => p);
+    // remove empty entries in item's paragraphs
+    items.forEach((item) => {
+        item.paragraphs = item.paragraphs.filter((p) => p);
+    });
+    // remove empty entries in list's paragraphs
     lists.forEach((list) => {
         list.forEach((item) => {
-            while (item.paragraphs.length && !item.paragraphs[item.paragraphs.length - 1]) item.paragraphs.pop();
+            item.paragraphs = item.paragraphs.filter((p) => p);
         });
     });
-
-    // and in items and in list's items
-    items.forEach((item) => {
-        while (item.paragraphs.length && !item.paragraphs[item.paragraphs.length - 1]) item.paragraphs.pop();
-    });
-
+    // remove empty entries in item's list's paragraphs
     items.forEach((item) => {
         if (item.lists?.length) {
             item.lists.forEach((list) => {
                 list.forEach((item) => {
-                    while (item.paragraphs.length && !item.paragraphs[item.paragraphs.length - 1]) item.paragraphs.pop();
+                    item.paragraphs = item.paragraphs.filter((p) => p);
                 });
             });
         }
     });
 
+    // split text in paragraphs by <br> tag, this is the rich text content which may contain line breaks, we need to display them as separate paragraphs
+    paragraphs = splitByBrTag(paragraphs);
+    // split text in items's paragraphs by <br> tag
+    items.forEach((item) => {
+        item.paragraphs = splitByBrTag(item.paragraphs);
+    });
+
     return { pretitle, title, subtitle, description, paragraphs, images, links, lists, tables, items, properties };
 };
+
+/**
+ * Removes HTML tags from a given string and decodes HTML entities.
+ *
+ * @param {string} htmlString - The input string containing HTML tags.
+ * @returns {string} The plain text string with HTML tags removed and entities decoded.
+ */
+function stripTags(htmlString) {
+    if (!htmlString || typeof htmlString !== 'string') return '';
+
+    // Remove HTML tags using regular expression
+    const plainString = htmlString.replace(/<[^>]*>/g, '');
+
+    // Decode HTML entities
+    const decodedString = new DOMParser().parseFromString(plainString, 'text/html').body.textContent;
+
+    return decodedString;
+}
 
 /**
  * Parses a styled string and converts it into an array of text parts with associated styles.
@@ -99,13 +137,13 @@ export function parseStyledString(inputString) {
      * @returns {Object[]} - An array of text part objects with styles applied.
      */
     const processSegments = (string, styles = {}) => {
-        const regex = /<(\w+)>(.*?)<\/\1>/gs;
+        const regexp = /<(\w+)>(.*?)<\/\1>/gs;
         let result = [];
         let lastIndex = 0;
 
         if (!string) return [createTextPart('', styles)];
 
-        string.replace(regex, (match, tag, innerText, offset) => {
+        string.replace(regexp, (match, tag, innerText, offset) => {
             // Capture text before the tag, if any
             const plainText = string.slice(lastIndex, offset);
             if (plainText) {
@@ -114,8 +152,8 @@ export function parseStyledString(inputString) {
 
             // Update the styles based on the current tag
             const newStyles = { ...styles };
-            if (tag === 'strong') newStyles.bold = true;
-            if (tag === 'em') newStyles.italics = true;
+            if (tag === 'strong' || tag === 'b') newStyles.bold = true;
+            if (tag === 'em' || tag === 'i') newStyles.italics = true;
             if (tag === 'u') newStyles.underline = {};
 
             // Recursively process nested tags
@@ -137,6 +175,11 @@ export function parseStyledString(inputString) {
     if (typeof inputString !== 'string') {
         console.log('warning: inputString is not a string', inputString);
         inputString = inputString.toString();
+    }
+
+    // special case for string wrapped in <u-org>, we strip all the tags
+    if (/<u-org>[\s\S]*?<\/u-org>/g.test(inputString)) {
+        inputString = stripTags(inputString);
     }
 
     return processSegments(inputString);
@@ -324,6 +367,24 @@ export function htmlToDocx(htmlString) {
                         properties.borders = properties.borders || {};
                         properties.borders.right = properties.borders.right || {};
                         properties.borders.right.color = attr.value;
+                        break;
+                    case 'data-image-type':
+                        properties.imageType = attr.value;
+                        break;
+                    case 'data-floating-horizontalposition-align':
+                        properties.floating = properties.floating || {};
+                        properties.floating.horizontalPosition = properties.floating.horizontalPosition || {};
+                        properties.floating.horizontalPosition.align = attr.value;
+                        break;
+                    case 'data-floating-verticalposition-align':
+                        properties.floating = properties.floating || {};
+                        properties.floating.verticalPosition = properties.floating.verticalPosition || {};
+                        properties.floating.verticalPosition.align = attr.value;
+                        break;
+                    case 'data-floating-verticalposition-relative':
+                        properties.floating = properties.floating || {};
+                        properties.floating.verticalPosition = properties.floating.verticalPosition || {};
+                        properties.floating.verticalPosition.relative = attr.value;
                         break;
 
                     default:
