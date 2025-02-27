@@ -11,7 +11,7 @@ import { twMerge } from 'tailwind-merge';
  */
 export default function Section({ children, className = '', tooltip, ...props }) {
     return (
-        <section className={twMerge('mx-auto w-full max-w-4xl text-[18px]', className, tooltip && 'flex items-start space-x-2')} {...props}>
+        <section className={twMerge('mx-auto w-full max-w-4xl', className, tooltip && 'flex items-start space-x-2')} {...props}>
             <div className='flex-grow'>{children}</div>
             {tooltip}
         </section>

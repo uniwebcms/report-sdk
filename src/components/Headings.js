@@ -50,7 +50,7 @@ export function H1({ data, children, className, ...props }) {
     if (!children && !data) return null;
 
     const properties = {
-        className: twMerge('text-[18px] py-[15px] text-center', className),
+        // className: twMerge('text-[18px] py-[15px] text-center', className),
         ...props,
         'data-type': 'paragraph',
         'data-heading': 'HEADING_1'
@@ -60,11 +60,11 @@ export function H1({ data, children, className, ...props }) {
         const parsed = parseStyledString(data);
 
         return (
-            <p {...properties}>
+            <h1 {...properties}>
                 {parsed.map((text, index) => {
                     return <Fragment key={index}>{createTextRun(text)}</Fragment>;
                 })}
-            </p>
+            </h1>
         );
     }
 
@@ -84,7 +84,7 @@ export function H2({ data, children, className, ...props }) {
     if (!children && !data) return null;
 
     const properties = {
-        className: twMerge('text-[20px] pt-1 pb-3 text-center', className),
+        // className: twMerge('text-[20px] pt-1 pb-3 text-center', className),
         ...props,
         'data-type': 'paragraph',
         'data-heading': 'HEADING_2'
@@ -94,15 +94,15 @@ export function H2({ data, children, className, ...props }) {
         const parsed = parseStyledString(data);
 
         return (
-            <p {...properties}>
+            <h2 {...properties}>
                 {parsed.map((text, index) => {
                     return <Fragment key={index}>{createTextRun(text)}</Fragment>;
                 })}
-            </p>
+            </h2>
         );
     }
 
-    return <p {...properties}>{children}</p>;
+    return <h2 {...properties}>{children}</h2>;
 }
 
 /**
@@ -118,7 +118,7 @@ export function H3({ data, children, className, ...props }) {
     if (!children && !data) return null;
 
     const properties = {
-        className: twMerge('text-[20px] font-bold underline pt-6 pb-3 text-center', className),
+        // className: twMerge('text-[20px] font-bold underline pt-6 pb-3 text-center', className),
         ...props,
         'data-type': 'paragraph',
         'data-heading': 'HEADING_3'
@@ -128,15 +128,15 @@ export function H3({ data, children, className, ...props }) {
         const parsed = parseStyledString(data);
 
         return (
-            <p {...properties}>
+            <h3 {...properties}>
                 {parsed.map((text, index) => {
                     return <Fragment key={index}>{createTextRun(text)}</Fragment>;
                 })}
-            </p>
+            </h3>
         );
     }
 
-    return <p {...properties}>{children}</p>;
+    return <h3 {...properties}>{children}</h3>;
 }
 
 /**
@@ -152,7 +152,7 @@ export function H4({ data, children, className, ...props }) {
     if (!children && !data) return null;
 
     const properties = {
-        className: twMerge('text-[18px] py-[8px]', className),
+        // className: twMerge('text-[18px] py-[8px]', className),
         ...props,
         'data-type': 'paragraph',
         'data-heading': 'HEADING_4'
@@ -162,13 +162,13 @@ export function H4({ data, children, className, ...props }) {
         const parsed = parseStyledString(data);
 
         return (
-            <p {...properties}>
+            <h4 {...properties}>
                 {parsed.map((text, index) => {
                     return <Fragment key={index}>{createTextRun(text)}</Fragment>;
                 })}
-            </p>
+            </h4>
         );
     }
 
-    return <p {...properties}>{children}</p>;
+    return <h4 {...properties}>{children}</h4>;
 }

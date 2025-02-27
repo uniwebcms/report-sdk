@@ -102,12 +102,12 @@ export default function Paragraph({ as = 'p', data, children, format, ...props }
                 if (mode === 'twoColumnLayoutWide' || mode === 'twoColumnLayout') {
                     return (
                         <Tag {...props} className='flex' data-type='paragraph' data-style={mode}>
-                            <span className='w-2/3' data-type='contentWrapper'>
+                            <span className={mode === 'twoColumnLayoutWide' ? 'w-2/3' : 'w-1/2'} data-type='contentWrapper'>
                                 {firstColumn.map((text, index) => (
                                     <Fragment key={index}>{createTextRun(text)}</Fragment>
                                 ))}
                             </span>
-                            <span className='w-1/3' data-type='contentWrapper'>
+                            <span className={mode === 'twoColumnLayoutWide' ? 'w-1/3' : 'w-1/2'} data-type='contentWrapper'>
                                 {secondColumn.map((text, index) => (
                                     <Fragment key={index}>
                                         {createTextRun(
@@ -153,10 +153,10 @@ export default function Paragraph({ as = 'p', data, children, format, ...props }
                     );
                 } else if (mode === 'twoLevelIndentation') {
                     return (
-                        <Tag {...props} className='flex' data-type='paragraph' data-style={mode}>
-                            <span className='w-1/3 pl-8 text-[17px]' data-type='contentWrapper'>
+                        <Tag {...props} className='flex items-center' data-type='paragraph' data-style={mode}>
+                            <span className='w-1/3 pl-8' data-type='contentWrapper'>
                                 {firstColumn.map((text, index) => (
-                                    <Fragment key={index}>{createTextRun(text, { 'data-size': 21 })}</Fragment>
+                                    <Fragment key={index}>{createTextRun(text)}</Fragment>
                                 ))}
                             </span>
                             <span className='w-2/3 pl-4' data-type='contentWrapper'>
