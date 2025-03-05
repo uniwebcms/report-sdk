@@ -153,7 +153,7 @@ export default function Paragraph({ as = 'p', data, children, format, ...props }
                     );
                 } else if (mode === 'twoLevelIndentation') {
                     return (
-                        <Tag {...props} className='flex items-center' data-type='paragraph' data-style={mode}>
+                        <Tag {...props} className='flex' data-type='paragraph' data-style={mode}>
                             <span className='w-1/3 pl-8' data-type='contentWrapper'>
                                 {firstColumn.map((text, index) => (
                                     <Fragment key={index}>{createTextRun(text)}</Fragment>
